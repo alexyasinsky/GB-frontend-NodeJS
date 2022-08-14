@@ -1,8 +1,3 @@
-// import {printColorMessageToConsole} from "./colors.js";
-//
-//
-// console.log('hello node.js');
-//
 // import fs from 'fs';
 //
 //
@@ -13,11 +8,9 @@
 //     return console.log(data.toString('utf-8'));
 //   }
 // })
+
+
+// import {getPrimeNumbers} from "./numbers.js";
 //
-// printColorMessageToConsole('green', 'hello');
+// getPrimeNumbers(19);
 
-//
-
-import {getPrimeNumbers} from "./numbers.js";
-
-getPrimeNumbers(19);
