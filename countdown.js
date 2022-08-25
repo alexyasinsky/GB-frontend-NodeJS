@@ -10,7 +10,7 @@ export function getDaysInCurrentMonth() {
 export function generateTimeLeftObject(dateArray) {
   dateArray[1] = +dateArray[1] - 1;
   let date = new Date(...dateArray);
-  const now = new Date(2022, 7, 25, 22, 59, 55);
+  const now = new Date();
 
   let years = date.getFullYear() - now.getFullYear();
 
