@@ -1,4 +1,3 @@
-
 export function getPrimeNumbers (n) {
   const primes = [1];
   if (n === 1) return;

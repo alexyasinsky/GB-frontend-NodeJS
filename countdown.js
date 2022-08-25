@@ -1,12 +1,10 @@
-import inquirer from "inquirer";
-
 function getDaysInCurrentMonth() {
   const now = new Date();
   const temp = new Date().setMonth(now.getMonth() + 1);
   return Math.floor((temp - now) / 1000 / 60 / 60 / 24);
 }
 
-function getTimeLeft(dateArray) {
+export function getTimeLeft(dateArray) {
   let date = new Date(...dateArray);
   const now = new Date();
 
@@ -93,21 +91,7 @@ function getTimeLeft(dateArray) {
       minutes--;
     }
   }
-
-  return [years, months, days, hours, minutes, seconds].join(', ');
+  return {years, months, days, hours, minutes, seconds}
 }
 
-inquirer
-    .prompt([
-      {
-        name: 'timeAndDate',
-        message: 'Enter time and date in format hh-dd-mm-yyyy to start countdown:'
-      },
-    ])
-    .then(answers => {
-      const dateArray = answers.timeAndDate.split('-').reverse();
-      dateArray[1] = +dateArray[1] - 1;
-      const timeleft = getTimeLeft(dateArray);
-      console.log(timeleft);
-    });
 
