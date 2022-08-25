@@ -10,7 +10,9 @@
 // })
 
 
-// import {getPrimeNumbers} from "./numbers.js";
-//
-// getPrimeNumbers(19);
+import {getPrimeNumbers} from "./numbers.js";
+import colorizeArr from "./colorizer.js";
 
+const primes = getPrimeNumbers(19);
+const palette = ['green', 'yellow', 'red'];
+colorizeArr(primes, palette);
