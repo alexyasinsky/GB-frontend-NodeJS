@@ -1,6 +1,5 @@
 import inquirer from "inquirer";
-import {getTimeLeft} from "./countdown.js";
-import {colorizeDate} from "./colorizer.js";
+import {generateTimeLeftObject, toTick} from "./countdown.js";
 
 inquirer
   .prompt([
@@ -11,7 +10,8 @@ inquirer
   ])
   .then(answers => {
     const dateArray = answers.timeAndDate.split('-').reverse();
-    dateArray[1] = +dateArray[1] - 1;
-    const timeleft = getTimeLeft(dateArray);
-    colorizeDate(timeleft, 'blue');
+    const timeLeft = generateTimeLeftObject(dateArray);
+    console.log(new Date());
+    toTick(timeLeft);
   });
+
