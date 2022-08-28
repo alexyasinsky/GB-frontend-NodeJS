@@ -9,13 +9,6 @@ export function colorizeArr(arr, palette) {
   }
 }
 
-export function colorizeDate(obj, color) {
-  let str = '';
-  for (let item in obj) {
-    if (obj[item] !== 0) {
-      str += `${obj[item]} ${item} `;
-    }
-  }
-  str += 'left';
-  console.log(colors[color](str));
+export function colorizeString(string, color) {
+  console.log(colors[color](string));
 }

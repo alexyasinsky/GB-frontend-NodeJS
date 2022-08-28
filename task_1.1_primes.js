@@ -1,20 +1,18 @@
 import {getPrimeNumbers} from "./numbers.js";
-import {colorizeArr} from "./colorizer.js";
-import inquirer from "inquirer";
+import {colorizeArr, colorizeString} from "./colorizer.js";
 
 
-inquirer
-  .prompt([
-    {
-      name: 'number',
-      message: 'Enter number from 1 to infinity to get primes: '
-    },
-  ])
-  .then(answers => {
-    const primes = getPrimeNumbers(answers.number);
-    const palette = ['green', 'yellow', 'red'];
-    colorizeArr(primes, palette);
-  });
+
+const startNumber = +process.argv[2];
+const finishNumber = +process.argv[3];
+let primes = getPrimeNumbers(startNumber, finishNumber);
+if (primes.length !== 0) {
+  const palette = ['green', 'yellow', 'red'];
+  colorizeArr(primes, palette);
+} else {
+  colorizeString('There is no primes in your range', 'red');
+}
+
 
 
 

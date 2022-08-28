@@ -11,7 +11,6 @@ inquirer
   .then(answers => {
     const dateArray = answers.timeAndDate.split('-').reverse();
     const timeLeft = generateTimeLeftObject(dateArray);
-    console.log(new Date());
     toTick(timeLeft);
   });
 

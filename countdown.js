@@ -1,5 +1,5 @@
 import  EventEmitter from 'events';
-import {colorizeDate} from "./colorizer.js";
+import {colorizeString} from "./colorizer.js";
 
 export function getDaysInCurrentMonth() {
   const now = new Date();
@@ -100,17 +100,28 @@ export function generateTimeLeftObject(dateArray) {
 
 const emitter = new EventEmitter();
 
-emitter.on('red', payload => colorizeDate(payload, 'red'));
-emitter.on('yellow', payload => colorizeDate(payload, 'yellow'));
-emitter.on('green', payload => colorizeDate(payload, 'green'));
-emitter.on('blue', payload => colorizeDate(payload, 'blue'));
+emitter.on('red', payload => colorizeString(payload, 'red'));
+emitter.on('yellow', payload => colorizeString(payload, 'yellow'));
+emitter.on('green', payload => colorizeString(payload, 'green'));
+emitter.on('blue', payload => colorizeString(payload, 'blue'));
+
+function getDateStringFromObject(obj) {
+  let dateString = '';
+  for (let item in obj) {
+    if (obj[item] !== 0) {
+      dateString += `${obj[item]} ${item} `;
+    }
+  }
+  dateString += 'left';
+  return dateString;
+}
 
 const palette = ['red', 'yellow', 'green', 'blue'];
 let colorCount = 0;
 
 export async function toTick(timeLeft) {
   let color = palette[colorCount];
-  emitter.emit(color, timeLeft);
+  emitter.emit(color, getDateStringFromObject(timeLeft));
   await new Promise ((resolve)=> setTimeout(() => {
     if (timeLeft.seconds !== 0) {
       timeLeft.seconds--;

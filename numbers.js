@@ -1,7 +1,6 @@
-export function getPrimeNumbers (n) {
-  const primes = [1];
-  if (n === 1) return;
-  for (let i = 2; i <= n; i++) {
+export function getPrimeNumbers (start, finish) {
+  const primes = [];
+  for (let i = start; i <= finish; i++) {
     let count = 0;
     for (let j = 1; j <= i; j++) {
       if (i % j === 0) {
