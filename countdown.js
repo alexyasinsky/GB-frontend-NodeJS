@@ -1,5 +1,5 @@
 import  EventEmitter from 'events';
-import {colorizeString} from "./colorizer.js";
+import {colorizeDate} from "./colorizer.js";
 
 export function getDaysInCurrentMonth() {
   const now = new Date();
