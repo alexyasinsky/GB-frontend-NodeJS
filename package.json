@@ -1,0 +1,30 @@
+{
+  "name": "gb-frontend-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "task_1.1_primes.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexyasinsky/GB-frontend-NodeJS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexyasinsky/GB-frontend-NodeJS/issues"
+  },
+  "homepage": "https://github.com/alexyasinsky/GB-frontend-NodeJS#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "inquirer": "^9.1.0",
+    "jest": "^28.1.3",
+    "minimist": "^1.2.6",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^28.1.6"
+  }
+}
