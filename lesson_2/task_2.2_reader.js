@@ -2,34 +2,13 @@
 
 import fs from 'fs';
 import readline from 'readline';
-// const yargs = require ('yargs');
 import path from 'path';
 import inquirer from 'inquirer';
+import _yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+const yargs = _yargs(hideBin(process.argv));
 
 
-
-// const fileFilter = (fileOrDir) => fs.lstatSync(fileOrDir).isFile();
-// const list = fs.readdirSync('./').filter(fileFilter);
-
-// inquirer
-//   .prompt([
-//     {
-//       name: 'fileName',
-//       type: 'list', // input, number, confirm, list, chackbox, password
-//       message: 'Выберите файл для чтения',
-//       choices: list,
-//     },
-//   ])
-//   .then(({ fileName }) => {
-//     const fullFilePath = path.join(executionDir, fileName);
-
-//     fs.readFile(fullFilePath, 'utf-8', (err, data) => {
-//       if (err) {
-//         console.log(err);
-//       }
-//       console.log(data);
-//     });
-//   });
 
 // const [filePath] = process.argv.slice(2);
 
@@ -84,10 +63,21 @@ import inquirer from 'inquirer';
 //   rl.close();
 // })();
 
-const executionDir = process.cwd();
 
-const fileFilter = (fileOrDir) => fs.lstatSync(fileOrDir).isFile();
-const list = fs.readdirSync('./').filter(fileFilter);
+
+const options = yargs
+  .usage('Usage: -p <path to directory>')
+  .options('p', {
+    alias: 'path',
+    describe: 'Path to operation directory',
+    type: 'string',
+    default: ''
+  }).argv
+  
+const executionDir = process.cwd() + "\\" + options.p + "\\";
+  
+const fileFilter = (fileOrDir) => fs.lstatSync(options.p + '/' + fileOrDir).isFile();
+const list = fs.readdirSync(executionDir).filter(fileFilter);
 
 inquirer
   .prompt([
