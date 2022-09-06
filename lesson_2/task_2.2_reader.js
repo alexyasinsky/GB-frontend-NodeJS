@@ -74,30 +74,41 @@ const options = yargs
     default: ''
   }).argv
   
-const executionDir = process.cwd() + "\\" + options.p + "\\";
+const executionDir = process.cwd() + "\\" + options.p;
   
-const fileFilter = (fileOrDir) => fs.lstatSync(options.p + '/' + fileOrDir).isFile();
-const list = fs.readdirSync(executionDir).filter(fileFilter);
 
-inquirer
+browseDirectory(executionDir);
+
+function browseDirectory(directory) {
+
+  const list = fs.readdirSync(directory);
+
+  inquirer
   .prompt([
     {
-      name: 'fileName',
+      name: 'fileOrDirName',
       type: 'list', // input, number, confirm, list, chackbox, password
       message: 'Выберите файл для чтения',
       choices: list,
     },
   ])
-  .then(({ fileName }) => {
-    const fullFilePath = path.join(executionDir, fileName);
+  .then(({ fileOrDirName }) => {
+    if (fs.lstatSync(directory + '/' + fileOrDirName).isFile()) {
+      const fullFilePath = path.join(directory, fileOrDirName);
 
-    fs.readFile(fullFilePath, 'utf-8', (err, data) => {
-      if (err) {
-        console.log(err);
-      }
-      console.log(data);
-    });
+      fs.readFile(fullFilePath, 'utf-8', (err, data) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log(data);
+      });
+    } else {
+      browseDirectory(directory + '/' + fileOrDirName);
+    }   
   });
+}
+
+
 
 
 
