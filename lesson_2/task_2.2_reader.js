@@ -25,10 +25,7 @@ const yargs = _yargs(hideBin(process.argv));
 
 // console.log(data);
 
-// const rl = readline.createInterface({
-//   input: process.stdin,
-//   output: process.stdout,
-// });
+
 
 // rl.question('Введите путь до файла: ', (filePath) => {
 //   rl.question('Введите кодировку файла: ', (encode) => {
@@ -95,13 +92,35 @@ function browseDirectory(directory) {
   .then(({ fileOrDirName }) => {
     if (fs.lstatSync(directory + '/' + fileOrDirName).isFile()) {
       const fullFilePath = path.join(directory, fileOrDirName);
+      const rl = readline.createInterface({
+          input: process.stdin,
+          output: process.stdout,
+        });
 
-      fs.readFile(fullFilePath, 'utf-8', (err, data) => {
-        if (err) {
-          console.log(err);
-        }
-        console.log(data);
-      });
+      const question = async (query) =>
+        new Promise((resolve, reject) => rl.question(query, resolve));
+
+      (async () => {
+        const queryString = await question('Введите строку для поиска: ');
+        const regexp = new RegExp(queryString, 'i');
+        
+        fs.readFile(fullFilePath, 'utf-8', (err, data) => {
+          if (err) {
+            console.log(err);
+          }
+          
+          if (regexp.test(data)) {
+            console.log(`файл содержит искомую строку: ${queryString}`);
+          } else {
+            console.log(`файл не содержит искомой строки: ${queryString}`);
+            browseDirectory(directory);
+          }
+          
+        });
+
+        rl.close();
+      })();
+
     } else {
       browseDirectory(directory + '/' + fileOrDirName);
     }   
