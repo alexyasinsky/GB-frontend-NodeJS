@@ -2,7 +2,7 @@
   "name": "gb-frontend-nodejs",
   "version": "1.0.0",
   "description": "",
-  "main": "task_1.1_primes.js",
+  "main": "lesson_1/task_1.1_primes.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
