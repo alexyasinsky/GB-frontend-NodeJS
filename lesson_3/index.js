@@ -2,8 +2,8 @@ import fs from "fs";
 import os from "os";
 import express from 'express';
 const app = express();
-import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
+// import bodyParser from 'body-parser';
+// import cookieParser from 'cookie-parser';
 import cluster from "cluster";
 
 if (cluster.isMaster) {
@@ -24,20 +24,29 @@ if (cluster.isMaster) {
 
   })
 
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({extended: true}));
+  // app.use(bodyParser.json());
+  // app.use(bodyParser.urlencoded({extended: true}));
+  //
+  // app.use(cookieParser());
 
-  app.use(cookieParser());
+  app.get('/:fileName', function (req, res) {
 
-  app.get('/', (req, res) => {
-    const readStream = fs.createReadStream('index.html')
+    const readStream = fs.createReadStream(req.params.fileName);
 
-    res.writeHead(200, "OK", {
-      "Content-Type": "text/html",
-    });
     console.log(`Send file for ${process.pid}`)
 
     readStream.pipe(res)
+
+  });
+
+  app.get('/', (req, res) => {
+    const list = fs.readdirSync(process.cwd());
+    let html = '<ul>';
+    list.forEach(item => {
+      html += `<a href="${item}"><li>${item}</li></a>`
+    });
+    html += '</ul>'
+    res.send(html);
   });
 
   app.listen(5555, () => console.log('server started on port 5555 at ', new Date().toISOString()));
