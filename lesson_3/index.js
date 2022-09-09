@@ -1,47 +1,45 @@
-// import http from 'http';
-
-// const server = http.createServer((req, res) => {
-//   if (req.method === 'POST') {
-//     let data = '';
-//     req.on('data', chunk => data += chunk );
-//     req.on('end', () => {
-//       console.log('data', JSON.parse(data));
-//       // res.writeHead(200, 'OK', {
-//       //   'Content-Type': 'application/json'
-//       // });
-//       // res.end(data);
-//     })
-//   }
-//   res.end('default')
-// })
-
-// server.listen(5555);
-
+import fs from "fs";
+import os from "os";
 import express from 'express';
 const app = express();
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import cluster from "cluster";
 
-app.use((req, res, next) => {
-  console.log(new Date().toISOString());
-  next();
-})
+if (cluster.isMaster) {
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+  console.log(`Master ${process.pid} is running...`);
 
-app.use(cookieParser());
+  for (let i = 0; i < os.cpus().length; i++) {
+    console.log(`Forking process number ${i}`);
+    cluster.fork();
+  }
 
-app.get('/json', (req, res) => {
-  res.json({"name": "Ivan"});
-});
+} else {
 
-app.get('/status', (req, res) => {
-  res.sendStatus(201);
-});
+  console.log(`Worker ${process.pid} is running...`)
+  app.use((req, res, next) => {
+    console.log(new Date().toISOString());
+    next();
 
-app.get('/', (req, res) => {
-  res.sendFile('index.html', { root: process.cwd()});
-});
+  })
 
-app.listen(5555, () => console.log('server started on port 5555'));
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({extended: true}));
+
+  app.use(cookieParser());
+
+  app.get('/', (req, res) => {
+    const readStream = fs.createReadStream('index.html')
+
+    res.writeHead(200, "OK", {
+      "Content-Type": "text/html",
+    });
+    console.log(`Send file for ${process.pid}`)
+
+    readStream.pipe(res)
+  });
+
+  app.listen(5555, () => console.log('server started on port 5555 at ', new Date().toISOString()));
+
+}
