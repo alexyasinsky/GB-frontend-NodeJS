@@ -5,7 +5,8 @@
   "main": "lesson_1/task_1.1_primes.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/server.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "jest": "^28.1.3",
     "minimist": "^1.2.6",
     "moment": "^2.29.4",
+    "mongoose": "^6.6.0",
     "node-whois": "^2.1.3"
   },
   "devDependencies": {
